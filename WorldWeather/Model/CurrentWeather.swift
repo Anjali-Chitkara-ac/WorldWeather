@@ -14,5 +14,6 @@ class CurrentWeather{
     var epochTime : Int = Int.min
     var isDayTime : Bool = true
     var temp : Int = Int.min
+    var weatherImg : Int = Int.min
 
 }

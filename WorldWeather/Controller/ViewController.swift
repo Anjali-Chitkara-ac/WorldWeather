@@ -19,6 +19,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var arrCityInfo: [CityInfo] = [CityInfo]()
     var arrCurrentWeather : [CurrentWeather] = [CurrentWeather]()
     
+    let icon = [1,2,3,4,5,6,7,8,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -36,9 +38,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        //let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let currWeatherOfCity = arrCurrentWeather[indexPath.row]
-        cell.textLabel?.text = "\(currWeatherOfCity.cityInfoName) \(currWeatherOfCity.weatherText)"
+//        cell.textLabel?.text = "\(currWeatherOfCity.cityInfoName) \(currWeatherOfCity.weatherText) \(currWeatherOfCity.temp)°C"
+        
+        let cell = Bundle.main.loadNibNamed("CityWeatherTableViewCell", owner: self, options: nil)?.first as! CityWeatherTableViewCell
+        cell.lblCityName.text = "\(currWeatherOfCity.cityInfoName)"
+        cell.lblTemp.text = "\(currWeatherOfCity.temp)°C"
+        cell.lblWeatherTxt.text = "\(currWeatherOfCity.weatherText)"
+        cell.weatherImg.image = UIImage(named: "\(currWeatherOfCity.weatherImg)")
+        
         return cell
     }
     
@@ -101,6 +110,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     currentWeather.epochTime = firstEntry["EpochTime"].intValue
                     currentWeather.isDayTime = firstEntry["IsDayTime"].boolValue
                     currentWeather.temp = firstEntry["Temperature"]["Metric"]["Value"].intValue
+                    currentWeather.weatherImg = firstEntry["WeatherIcon"].intValue
                     seal.fulfill(currentWeather)
                     print(currentWeather.weatherText)
                     
